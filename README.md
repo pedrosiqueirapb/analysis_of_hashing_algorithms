@@ -32,6 +32,14 @@ O script principal `run_full_benchmark.ps1` executa o ciclo completo:
 4. **Análise e consolidação de resultados**  
    - O script `prepare_results.py` processa os dados gerados, calcula médias e percentuais e gera gráficos e arquivos `.csv`.
 
+## 🔐 Sobre o Conjunto de Senhas Utilizado
+
+O arquivo `passwords.xlsx` contém o conjunto de senhas utilizadas nos experimentos.  
+Essas senhas são geradas automaticamente pelo script `generate_passwords.py`, que produz uma lista variada de combinações alfanuméricas, símbolos e formatos diferentes, simulando cenários comuns de autenticação.
+
+Esse conjunto é utilizado tanto na geração dos hashes quanto na criação do arquivo `wordlist_test.txt`, empregado pelo John the Ripper durante os testes de resistência.  
+Todo o conteúdo é totalmente artificial, criado exclusivamente para fins acadêmicos e experimentais, sem qualquer relação com senhas reais de usuários.
+
 ## 🧪 Como Executar o Projeto
 
 ### 1. Requisitos
@@ -65,14 +73,18 @@ O processo leva alguns minutos e gera automaticamente todos os resultados em /re
 
 Após a execução, os principais arquivos produzidos são:
 
-| Tipo de Arquivo            | Descrição                                              |
-| -------------------------- | ------------------------------------------------------ |
-| `server_benchmarks.csv`    | Dados de tempo e memória de cada algoritmo no servidor |
-| `monitor_summary.csv`      | Consumo médio de CPU e memória durante o ataque        |
-| `john_results.csv`         | Percentual de senhas quebradas por algoritmo           |
-| `plot_time_per_hash.png`   | Tempo médio (s) por algoritmo                          |
-| `plot_mem_mb.png`          | Uso médio de memória (MB)                              |
-| `plot_percent_cracked.png` | Percentual de senhas quebradas                         |
+| Arquivo                         | Descrição                                          |
+| ------------------------------- | -------------------------------------------------- |
+| **server_benchmarks.csv**       | Tempos e memória medidos no servidor.              |
+| **summary_table.csv**           | Tabela consolidada dos resultados do servidor.     |
+| **john_bcrypt_monitor.csv**     | Monitoramento de CPU/memória do ataque ao bcrypt.  |
+| **john_sha256_monitor.csv**     | Monitoramento de CPU/memória do ataque ao SHA-256. |
+| **john_bcrypt_show.txt**        | Resultado do `--show` para bcrypt.                 |
+| **john_sha256_show.txt**        | Resultado do `--show` para SHA-256.                |
+| **john_results.csv**            | Percentual de senhas quebradas por algoritmo.      |
+| **monitor_summary.csv**         | Média de memória usada durante os ataques.         |
+| **plot_cracked_vs_memoria.png** | Gráfico: % quebrado × memória média.               |
+| **plot_time_per_hash.png**      | Gráfico de tempo médio por hash (escala log).      |
 
 ## 👥 Autores
 
@@ -83,5 +95,12 @@ Curso de *Sistemas de Informação* — Pontifícia Universidade Católica de Mi
 
 ## 📚 Licença e Uso Acadêmico
 
-Este projeto é de caráter acadêmico e experimental, com fins de pesquisa e reprodutibilidade científica.
-Os scripts e resultados podem ser utilizados como referência em outros estudos sobre segurança da informação e criptografia de senhas.
+Este projeto possui finalidade estritamente acadêmica, criado no contexto de um Trabalho de Conclusão de Curso.
+Todo o código, dados e scripts foram desenvolvidos com foco em estudos de segurança da informação, comparação de algoritmos de hashing e reprodutibilidade científica.
+
+O uso deste repositório está alinhado:
+
+- Às boas práticas de segurança definidas pela ISO/IEC 27001 e 27002, que recomendam o uso de funções de hash robustas e técnicas de fortalecimento de senhas;
+- Às diretrizes da Lei Geral de Proteção de Dados (LGPD), uma vez que nenhum dado pessoal ou sensível é empregado nos experimentos.
+
+Todo o conjunto de senhas utilizado é artificial e não representa nenhum dado de usuário real. O projeto não deve ser aplicado diretamente em ambientes produtivos, pois seu propósito é exclusivamente didático e experimental.
