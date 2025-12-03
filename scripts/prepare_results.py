@@ -67,7 +67,7 @@ john_results = [
         "algoritmo": "sha256",
         "cracked": sha_cracked,
         "total": total_passwords,
-        "percentual_quebrado": (sha_cracked / total_passwords) * 100 + 28
+        "percentual_quebrado": (sha_cracked / total_passwords) * 100
     }
 ]
 
