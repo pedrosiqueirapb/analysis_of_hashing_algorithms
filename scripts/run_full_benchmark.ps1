@@ -37,7 +37,8 @@ function Run-John-And-Monitor {
         [string]$hashFile,
         [string]$outfile_monitor,
         [string]$outfile_show,
-        [string]$potfile
+        [string]$potfile,
+        [string]$algorithm
     )
 
     if (-not (Test-Path $hashFile)) {
@@ -45,28 +46,44 @@ function Run-John-And-Monitor {
         return
     }
 
-    # start John process
+    # marca o início
+    $startTime = Get-Date
+
+    # inicia o John
     $proc = Start-Process -FilePath $johnPath -ArgumentList @($johnArgs) -PassThru -WindowStyle Normal
     Start-Sleep -Seconds 1
+    
     if (-not $proc) {
         Write-Warning "John não iniciou para $hashFile"
         return
     }
-    Write-Host "John iniciado. PID: $($proc.Id) (hashfile: $hashFile)"
 
-    # rodar monitor_john.ps1 — este script bloqueia até o processo terminar (ele monitora o PID)
+    Write-Host "John iniciado. PID: $($proc.Id)"
+
+    # roda o monitor
     try {
         .\scripts\monitor_john.ps1 -TargetPID $proc.Id -interval 0.5 -outfile $outfile_monitor
     } catch {
         Write-Warning "Falha ao executar monitor_john.ps1: $_"
     }
 
-    # espera John encerrar (caso monitor não tenha feito)
+    # garante que o John terminou
     $proc.WaitForExit()
 
-    # exporta --show para o arquivo solicitado
+    # marca o fim
+    $endTime = Get-Date
+    $elapsed = ($endTime - $startTime).TotalSeconds
+
+    # salva tempo total em CSV
+    $timeCsv = ".\results\john_crack_times.csv"
+    if (-not (Test-Path $timeCsv)) {
+        "algorithm,crack_time_seconds" | Out-File -FilePath $timeCsv -Encoding utf8
+    }
+    "$algorithm,$elapsed" | Out-File -FilePath $timeCsv -Append -Encoding utf8
+
+    # salva o arquivo --show
     & $johnPath --show $hashFile > $outfile_show
-    Write-Host "John terminou. Show salvo em: $outfile_show  (pot: $potfile)"
+    Write-Host "John terminou. Tempo total: $([math]::Round($elapsed,2)) s"
 }
 
 # 3) rodar John para bcrypt
@@ -77,7 +94,13 @@ $monitorB = ".\results\john_bcrypt_monitor.csv"
 $showB = ".\results\john_bcrypt_show.txt"
 $johnArgsB = "--format=bcrypt --wordlist=.\\data\\wordlist_test.txt --rules --pot=$potB $bcryptFile"
 
-Run-John-And-Monitor -johnArgs $johnArgsB -hashFile $bcryptFile -outfile_monitor $monitorB -outfile_show $showB -potfile $potB
+Run-John-And-Monitor `
+    -johnArgs $johnArgsB `
+    -hashFile $bcryptFile `
+    -outfile_monitor $monitorB `
+    -outfile_show $showB `
+    -potfile $potB `
+    -algorithm "bcrypt"
 
 # 4) rodar John para SHA-256
 $shaFile = ".\hashes\sha256_test.txt"
@@ -87,7 +110,13 @@ $monitorS = ".\results\john_sha256_monitor.csv"
 $showS = ".\results\john_sha256_show.txt"
 $johnArgsS = "--format=raw-sha256 --wordlist=.\\data\\wordlist_test.txt --rules --pot=$potS $shaFile"
 
-Run-John-And-Monitor -johnArgs $johnArgsS -hashFile $shaFile -outfile_monitor $monitorS -outfile_show $showS -potfile $potS
+Run-John-And-Monitor `
+    -johnArgs $johnArgsS `
+    -hashFile $shaFile `
+    -outfile_monitor $monitorS `
+    -outfile_show $showS `
+    -potfile $potS `
+    -algorithm "sha256"
 
 # 5) preparar resultados finais
 Write-Host "Preparando resultados finais (CSV + gráficos)..."

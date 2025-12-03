@@ -1,109 +1,72 @@
 import pandas as pd
+import random
+import string
+from pathlib import Path
 
-passwords = [
-    "123456",
-    "password",
-    "qwerty",
-    "abc123",
-    "111111",
-    "123123",
-    "senha123",
-    "iloveyou",
-    "admin",
-    "welcome",
-    "monkey",
-    "letmein",
-    "football",
-    "dragon",
-    "sunshine",
-    "master",
-    "hello",
-    "freedom",
-    "whatever",
-    "login",
-    "flower",
-    "shadow",
-    "princess",
-    "qazwsx",
-    "password1",
-    "Casa2021!",
-    "Amigo2023",
-    "Tr3ndMUsic!99",
-    "Brasil2024",
-    "Natura#21",
-    "P@ssw0rd2024",
-    "Summer2023",
-    "C0ffeelover",
-    "Joao#2022",
-    "Mari_1234",
-    "Senha@Forte",
-    "L0gin@2023",
-    "G@mingLife99",
-    "Study#Mode",
-    "BookLover22",
-    "Work!Hard",
-    "TimeToCode",
-    "BeHappy24",
-    "P@raSempre",
-    "SkyBlue77",
-    "Star!Dust9",
-    "C@fezinho",
-    "Strong#Mind",
-    "Peace&Love",
-    "MyDog123",
-    "OceanView!",
-    "Mountain#Top",
-    "Tr@velNow",
-    "MyHeart22",
-    "GoodLuck!77",
-    "Plan#2025",
-    "Smart123",
-    "Victory!",
-    "Future@Goal",
-    "S@feHouse",
-    "R3li@bl3P@55w0rd!",
-    "G#7xF!m2Lq8",
-    "XyZ!93z@P1",
-    "N!ghtFalcon@2048",
-    "9pT@zR!4yU",
-    "W@terF0x#22",
-    "0mega#2025!",
-    "F!r3Str0m_99",
-    "Z@pper_77!",
-    "P0w3rM!nd#1",
-    "T!tanium_S3c",
-    "R@inB0w#2024",
-    "Cr!pt0K3y#",
-    "B@ckDoor99!",
-    "N3ural#Link@",
-    "Qw3rTy#9087",
-    "S3cur3!Vault",
-    "M@trix#Reboot",
-    "H@shBuster99",
-    "Quantum#AI!",
-    "Infini#Loop@",
-    "D@taShield42",
-    "Z#ph1r9L@b",
-    "Cyb3rW@ll!",
-    "Encrypt#Me9",
-    "Deep#Sea2024",
-    "4rcT!cW0lf@",
-    "S@turnR!ng5",
-    "0verCl0ck#77",
-    "S!lverH@wk",
-    "H@ckPr00f!Key",
-    "Mega#Core!99",
-    "5up3rS@fe#P@ss",
-    "P@thF!nderX",
-    "Unbr3@k@ble#2025",
-    "B!oSecur3X!",
-    "Neural#Web!",
-    "S@feZone#999",
-    "Tru$tMe#42",
-    "Bl@ckH0le#AI"
-]
+repo_root = Path(__file__).resolve().parents[1]
+data_dir = repo_root / "data"
+data_dir.mkdir(exist_ok=True)
 
-df = pd.DataFrame({"password": passwords})
-df.to_excel("passwords.xlsx", index=False)
+output_file = data_dir / "passwords.xlsx"
 
-print("Arquivo passwords.xlsx criado com sucesso!")
+# -------------------------
+# Funções auxiliares
+# -------------------------
+
+def weak_password():
+    # senhas fracas comuns
+    common_list = [
+        "123456", "password", "qwerty", "abc123", "111111", "123123",
+        "admin", "welcome", "monkey", "letmein", "senha123", "iloveyou"
+    ]
+    return random.choice(common_list)
+
+def medium_password():
+    # senhas médias com padrão palavra+número+símbolo
+    words = [
+        "House", "Friend", "Brazil", "Nature", "Summer", "Coffee", "Gamer",
+        "Work", "Study", "Happy", "Flower", "Shadow"
+    ]
+    symbols = "!@#$%&*"
+    return (
+        random.choice(words)
+        + str(random.randint(10, 9999))
+        + random.choice(symbols)
+    )
+
+def strong_password():
+    # senhas fortes totalmente aleatórias
+    length = random.randint(10, 18)
+    chars = (
+        string.ascii_letters
+        + string.digits
+        + "!@#$%&*_-+"
+    )
+    return "".join(random.choice(chars) for _ in range(length))
+
+# -------------------------
+# Gerar 1000 senhas únicas
+# -------------------------
+
+passwords = set()
+
+while len(passwords) < 1000:
+    r = random.random()
+    if r < 0.30:
+        pwd = weak_password()
+    elif r < 0.70:
+        pwd = medium_password()
+    else:
+        pwd = strong_password()
+    
+    passwords.add(pwd)
+
+df = pd.DataFrame({"password": list(passwords)})
+
+# remove arquivo anterior
+if output_file.exists():
+    output_file.unlink()
+
+df.to_excel(output_file, index=False)
+
+print(f"Arquivo '{output_file}' gerado com sucesso!")

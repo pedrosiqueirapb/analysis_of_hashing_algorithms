@@ -41,7 +41,7 @@ def measure(func, password, repeats=3, **kwargs):
 def main():
     pws = load_passwords()
     results = []
-    bcrypt_rounds = [4, 12] # 4 é para teste rápido, 12 para parâmetro real (exemplo)
+    bcrypt_rounds = [4, 12] # 4 é para teste rápido, 12 para parâmetro real
     argon2_configs = [
         {"time":2, "mem_kib":16384, "par":1},
     ]
