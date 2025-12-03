@@ -84,7 +84,7 @@ else:
     server_df = pd.DataFrame()
 
 # --- 5) Gráfico combinado (Percentual quebrado x Memória média) ---
-fig, ax1 = plt.subplots(figsize=(8, 4))
+fig, ax1 = plt.subplots(figsize=(8, 5))
 
 algorithms = ["sha256", "bcrypt"]
 x = np.arange(len(algorithms))
