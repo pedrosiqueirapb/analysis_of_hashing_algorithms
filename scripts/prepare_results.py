@@ -84,11 +84,11 @@ else:
     server_df = pd.DataFrame()
 
 # --- 5) Gráfico combinado (Percentual quebrado x Memória média) ---
-fig, ax1 = plt.subplots(figsize=(8, 5))
+fig, ax1 = plt.subplots(figsize=(8, 4))
 
 algorithms = ["sha256", "bcrypt"]
 x = np.arange(len(algorithms))
-width = 0.35
+width = 0.22
 
 percent_data = john_results_df.set_index("algoritmo").loc[algorithms]["percentual_quebrado"]
 memory_data = monitor_summary_df.set_index("algoritmo").loc[algorithms]["memoria_media_MB"]
@@ -102,7 +102,7 @@ bar1 = ax1.bar(
 )
 
 ax1.set_ylabel("Percentual de Quebra (%)")
-ax1.set_ylim(0, 140)
+ax1.set_ylim(0, 100)
 ax1.tick_params(axis='y')
 
 ax2 = ax1.twinx()
@@ -115,16 +115,23 @@ bar2 = ax2.bar(
 )
 
 ax2.set_ylabel("Memória Média (MB)")
-ax2.set_yticks(np.arange(0, max(memory_data)+2, 2))
+ax2.set_yticks(np.arange(0, max(memory_data)+8, 8))
 ax2.tick_params(axis='y')
 
 ax1.set_xticks(x)
 ax1.set_xticklabels(algorithms)
-ax1.set_title("Comparativo: Resistência e Uso de Memória por Algoritmo")
+ax1.set_title(
+    "Comparativo: Resistência e Uso de Memória por Algoritmo",
+    pad=20
+)
 
 bars = [bar1[0], bar2[0]]
 labels = ["Percentual de Quebra (%)", "Memória Média (MB)"]
-ax1.legend(bars, labels, loc="upper right")
+ax1.legend(
+    bars, labels,
+    loc="upper center",
+    borderaxespad=0
+)
 
 ax1.grid(axis="y", linestyle="--", alpha=0.5)
 
