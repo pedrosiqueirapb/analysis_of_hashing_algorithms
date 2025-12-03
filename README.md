@@ -1,6 +1,6 @@
 # Análise Comparativa de Algoritmos de Hashing na Proteção de Senhas em Sistemas de Informação
 
-Repositório técnico do Trabalho de Conclusão de Curso desenvolvido por **Gabriella Dantas** e **Pedro Siqueira Pereira Bitarães**, com o objetivo de analisar e comparar diferentes algoritmos de hashing aplicados à proteção de senhas em sistemas de informação.
+Repositório técnico do Trabalho de Conclusão de Curso desenvolvido por **Gabriella Dantas de Abreu Fandim** e **Pedro Siqueira Pereira Bitarães**, com o objetivo de analisar e comparar diferentes algoritmos de hashing aplicados à proteção de senhas em sistemas de informação.
 
 ## 🎯 Objetivos da Pesquisa
 
