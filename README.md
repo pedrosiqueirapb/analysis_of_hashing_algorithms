@@ -53,7 +53,7 @@ Todo o conteúdo é totalmente artificial, criado exclusivamente para fins acad�
 
 ```bash
 # Clonar o repositório
-git clone https://github.com/seuusuario/hashing-comparison-tcc.git
+git clone https://github.com/pedrosiqueirapb/hashing-comparison-tcc.git
 cd hashing-comparison-tcc
 
 # Criar e ativar o ambiente virtual
@@ -62,6 +62,9 @@ python -m venv .venv
 
 # Instalar dependências
 python -m pip install -r requirements.txt
+
+# Gerar a lista de senhas
+python .\scripts\generate_passwords.py
 
 # Executar o experimento completo
 .\scripts\run_full_benchmark.ps1 -bcrypt_rounds 12
@@ -85,6 +88,7 @@ Após a execução, os principais arquivos produzidos são:
 | **monitor_summary.csv**         | Média de memória usada durante os ataques.         |
 | **plot_cracked_vs_memoria.png** | Gráfico: % quebrado × memória média.               |
 | **plot_time_per_hash.png**      | Gráfico de tempo médio por hash (escala log).      |
+| **plot_crack_time_total.png**   | Gráfico do tempo total de quebra por algoritmo.    |
 
 ## 👥 Autores
 
