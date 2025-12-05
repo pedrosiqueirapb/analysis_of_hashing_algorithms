@@ -73,7 +73,7 @@ python .\scripts\generate_passwords.py
 .\scripts\run_full_benchmark.ps1 -bcrypt_rounds 12
 ```
 
-O processo leva alguns minutos e gera automaticamente todos os resultados em /results.
+O processo leva algumas horas e gera automaticamente todos os resultados em /results.
 
 ## 📊 Resultados Gerados
 
