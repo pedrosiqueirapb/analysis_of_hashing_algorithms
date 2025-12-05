@@ -7,10 +7,10 @@ Repositório técnico do Trabalho de Conclusão de Curso desenvolvido por **Gabr
 O projeto investiga o comportamento dos algoritmos **Argon2**, **bcrypt** e **SHA-256**, avaliando dois aspectos complementares:
 
 1. **Medições do Servidor (Uso Legítimo)**  
-   Mede o tempo e o consumo de memória para gerar/verificar senhas, simulando o funcionamento de um servidor real.
+   Avaliam o tempo de processamento durante a geração dos hashes, simulando o comportamento de um sistema real ao aplicar algoritmos de hashing a senhas.
 
-2. **Medições de Resistência (Ataque)**  
-   Avalia a dificuldade de quebrar os hashes por meio de ataques de força bruta com o **John the Ripper**, analisando tempo de quebra, uso de CPU e memória.
+2. **Medições de Resistência (Cenário de Ataque)**  
+   Analisam a facilidade ou dificuldade de comprometer os hashes por meio de ataques de dicionário utilizando o John the Ripper, registrando métricas como tempo de quebra e uso de CPU e memória durante o ataque.
 
 Essas análises permitem balancear **segurança x desempenho**, mostrando o custo computacional de proteger uma senha e o esforço necessário para quebrá-la.
 
@@ -19,17 +19,20 @@ Essas análises permitem balancear **segurança x desempenho**, mostrando o cust
 O ambiente foi construído em Python e PowerShell, automatizando todas as etapas do experimento.  
 O script principal `run_full_benchmark.ps1` executa o ciclo completo:
 
-1. **Geração de senhas e hashes**  
-   - Arquivo `generate_hashes_full.py` cria amostras de senhas e gera hashes para Argon2, bcrypt e SHA-256.
+1. **Geração da lista de senhas**
+   - Arquivo `generate_passwords.py` gera a amostra de senhas utilizada nos experimentos.
 
-2. **Medições de desempenho do servidor**  
-   - Script `benchmark_server.py` mede o tempo médio e o uso de memória de cada algoritmo no contexto de uso legítimo.
+2. **Geração dos hashes**  
+   - Arquivo `generate_hashes_full.py` produz os hashes para Argon2, bcrypt e SHA-256 a partir da lista de senhas gerada.
 
-3. **Execução de ataques práticos**  
+3. **Medições de desempenho do servidor**  
+   - Script `benchmark_server.py` mede o tempo médio de cada algoritmo no contexto de uso legítimo.
+
+4. **Execução de ataques práticos**  
    - O **John the Ripper** é utilizado para tentar recuperar as senhas (apenas bcrypt e SHA-256).
    - O script `monitor_john.ps1` registra CPU e memória durante o ataque.
 
-4. **Análise e consolidação de resultados**  
+5. **Análise e consolidação de resultados**  
    - O script `prepare_results.py` processa os dados gerados, calcula médias e percentuais e gera gráficos e arquivos `.csv`.
 
 ## 🔐 Sobre o Conjunto de Senhas Utilizado
