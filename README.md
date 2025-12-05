@@ -97,7 +97,7 @@ Após a execução, os principais arquivos produzidos são:
 
 [Gabriella Dantas de Abreu Fandim](https://github.com/gabriellaxdantas), [Pedro Siqueira Pereira Bitarães](https://github.com/pedrosiqueirapb)
 
-Orientador: Prof. **Luciana Mara Freitas Diniz**  
+Orientadora: Prof. **Luciana Mara Freitas Diniz**  
 Curso de *Sistemas de Informação* — Pontifícia Universidade Católica de Minas Gerais
 
 ## 📚 Licença e Uso Acadêmico
